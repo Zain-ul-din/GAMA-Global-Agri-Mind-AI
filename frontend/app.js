@@ -523,6 +523,9 @@ function setTraceMode(active) {
         const mapToolbar = document.getElementById('map-controls-toolbar');
         if (mapToolbar) mapToolbar.style.display = 'flex';
         
+        // Hide rulers in trace mode
+        if (cadViewport) cadViewport.classList.add('no-rulers');
+        
         // Ensure we are in 2D view mode
         switchViewMode(false);
         if (btnView2D) btnView2D.classList.remove('active'); // Keep Trace as the sole active highlight
@@ -550,6 +553,9 @@ function setTraceMode(active) {
         if (traceBtn) traceBtn.classList.remove('active');
         const mapToolbar = document.getElementById('map-controls-toolbar');
         if (mapToolbar) mapToolbar.style.display = 'none';
+        
+        // Restore rulers when leaving trace mode
+        if (cadViewport) cadViewport.classList.remove('no-rulers');
         
         // Hide map container completely
         if (mainMapContainer) {
@@ -7209,6 +7215,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         L.tileLayer('/api/v1/map/tile/{z}/{x}/{y}', {
             maxZoom: 19
+        }).addTo(mapInstance);
+
+        L.control.scale({
+            imperial: true,
+            metric: false,
+            position: 'bottomleft'
         }).addTo(mapInstance);
 
         drawnPolygonsGroup = L.featureGroup().addTo(mapInstance);

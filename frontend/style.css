@@ -1392,6 +1392,16 @@ input:focus, select:focus {
     box-sizing: border-box;
 }
 
+.cad-viewport.no-rulers {
+    grid-template-columns: 0px 1fr;
+    grid-template-rows: 1fr 0px;
+}
+
+.cad-viewport.no-rulers .y-ruler-container,
+.cad-viewport.no-rulers .x-ruler-container {
+    display: none !important;
+}
+
 .ruler-origin {
     grid-column: 1;
     grid-row: 2;
