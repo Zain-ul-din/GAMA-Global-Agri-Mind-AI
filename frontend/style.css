@@ -2487,7 +2487,7 @@ input:focus, select:focus {
     cursor: not-allowed;
 }
 /* Side-by-side Desktop Layout */
-@media (min-width: 1200px) {
+@media (min-width: 1350px) {
     .content-body {
         padding: 16px 24px !important;
     }
@@ -2514,10 +2514,33 @@ input:focus, select:focus {
     }
 }
 
-@media (max-width: 1199.98px) {
+@media (max-width: 1349.98px) {
     .design-desktop-layout {
         display: flex;
         flex-direction: column;
         gap: 24px;
+    }
+}
+
+/* Header scaling and spacing adjustments for small screens/laptops to prevent right-edge clipping */
+@media (min-width: 769px) and (max-width: 1349.98px) {
+    .main-header {
+        padding: 0 16px !important;
+    }
+    .header-left {
+        gap: 12px !important;
+    }
+    .header-status {
+        gap: 12px !important;
+        padding-left: 12px !important;
+    }
+    #header-address-input {
+        width: 180px !important;
+    }
+    #header-address-suggestions {
+        width: 180px !important;
+    }
+    .header-logo-container img {
+        height: 24px !important;
     }
 }
