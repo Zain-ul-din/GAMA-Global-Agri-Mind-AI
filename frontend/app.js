@@ -7628,4 +7628,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     initDefaultGeolocation();
+    
+    // Default to Trace Satellite Layout mode on startup
+    setTraceMode(true);
 });
