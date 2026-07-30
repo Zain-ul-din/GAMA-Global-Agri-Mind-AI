@@ -1777,6 +1777,41 @@ function applySelectedPresets(shouldSubmit = true) {
         });
     }
 
+// Helper to retrieve contextual emoji icon for crop name or type
+function getCropIcon(name, type) {
+    const n = name.toLowerCase();
+    const t = type ? type.toLowerCase() : '';
+    
+    if (n.includes('tomato')) return '🍅';
+    if (n.includes('pepper') || n.includes('chili')) return '🫑';
+    if (n.includes('basil') || n.includes('oregano') || n.includes('thyme') || n.includes('rosemary') || n.includes('mint') || n.includes('sage') || n.includes('parsley') || n.includes('cilantro') || n.includes('coriander') || n.includes('lavender') || n.includes('yarrow') || n.includes('bee balm')) return '🌿';
+    if (n.includes('strawberry')) return '🍓';
+    if (n.includes('raspberry') || n.includes('blackberry')) return '🫐';
+    if (n.includes('blueberry')) return '🫐';
+    if (n.includes('apple')) return '🍎';
+    if (n.includes('peach') || n.includes('apricot')) return '🍑';
+    if (n.includes('pear')) return '🍐';
+    if (n.includes('cherry')) return '🍒';
+    if (n.includes('carrot')) return '🥕';
+    if (n.includes('onion') || n.includes('garlic') || n.includes('leek')) return '🧅';
+    if (n.includes('lettuce') || n.includes('spinach') || n.includes('arugula') || n.includes('kale') || n.includes('chard') || n.includes('cabbage') || n.includes('bok choy')) return '🥬';
+    if (n.includes('bean') || n.includes('pea') || n.includes('lentil') || n.includes('chickpea')) return '🫛';
+    if (n.includes('corn')) return '🌽';
+    if (n.includes('potato') || n.includes('yam')) return '🥔';
+    if (n.includes('squash') || n.includes('pumpkin') || n.includes('zucchini') || n.includes('cucumber') || n.includes('melon') || n.includes('watermelon')) return '🍈';
+    if (n.includes('sunflower') || n.includes('marigold') || n.includes('nasturtium') || n.includes('milkweed')) return '🌻';
+    if (n.includes('chestnut') || n.includes('walnut') || n.includes('pecan') || n.includes('hazelnut') || n.includes('oak') || n.includes('maple') || n.includes('paulownia')) return '🌳';
+    
+    // Type fallbacks
+    if (t.includes('fruit')) return '🍎';
+    if (t.includes('herb')) return '🌿';
+    if (t.includes('vegetable')) return '🥬';
+    if (t.includes('flower')) return '🌸';
+    if (t.includes('tree')) return '🌳';
+    
+    return '🌱';
+}
+
 // Render Crop Tags in container as editable quantity rows (with climate zone validation warnings)
 function renderCropTags() {
     selectedCropsContainer.innerHTML = '';
@@ -1928,11 +1963,18 @@ function renderCropTags() {
 
         row.innerHTML = `
             <div class="crop-header-row">
-                <button class="remove-crop-row-btn" data-idx="${index}"><i class="fa-solid fa-trash"></i></button>
-                <div class="crop-info" style="cursor: pointer;">
-                    <strong class="crop-name">${crop.name}</strong>
-                    ${zoneWarningHtml}
-                    ${pottedBadgeHtml}
+                <div style="display: flex; align-items: center; justify-content: flex-start; font-size: 18px; padding-left: 4px;">
+                    ${getCropIcon(crop.name, crop.type)}
+                </div>
+                <div class="crop-info" style="cursor: pointer; display: flex; flex-direction: column; gap: 2px; min-width: 0; padding-left: 2px;">
+                    <strong class="crop-name" style="font-size: 11px; font-weight: 700; color: var(--text-primary); white-space: normal; line-height: 1.2; word-break: break-word;">${crop.name}</strong>
+                    <div style="display: flex; flex-direction: column; gap: 2px; width: 100%;">
+                        ${zoneWarningHtml}
+                        ${pottedBadgeHtml}
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; align-items: center;">
+                    <button class="remove-crop-row-btn" data-idx="${index}"><i class="fa-solid fa-trash"></i></button>
                 </div>
             </div>
             <div class="crop-inputs-grid">

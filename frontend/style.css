@@ -1223,29 +1223,32 @@ input:focus, select:focus {
 }
 
 .crop-quantity-row .crop-header-row {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
     align-items: center;
     width: 100%;
-    gap: 8px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.04);
     padding-bottom: 6px;
+    box-sizing: border-box;
 }
 
 .crop-quantity-row .crop-info {
-    flex: 1;
     display: flex;
-    align-items: center;
-    gap: 6px;
-    overflow: hidden;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    overflow: visible;
+    min-width: 0;
 }
 
 .crop-quantity-row .crop-name {
-    font-size: 12.5px;
+    font-size: 11px;
     font-weight: 700;
     color: var(--text-primary);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space: normal;
+    line-height: 1.2;
+    word-break: break-word;
 }
 
 .crop-quantity-row .crop-inputs-grid {
@@ -1293,20 +1296,27 @@ input:focus, select:focus {
 }
 
 .crop-quantity-row .remove-crop-row-btn {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
+    background: rgba(239, 68, 68, 0.03);
+    border: 1px solid rgba(239, 68, 68, 0.15);
+    color: #f87171;
     cursor: pointer;
-    font-size: 12px;
-    padding: 2px 4px;
+    font-size: 11px;
+    padding: 0;
     transition: all 0.2s ease;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-sm);
+    margin: 0;
 }
 
 .crop-quantity-row .remove-crop-row-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.3);
     color: #ef4444;
+    transform: scale(1.05);
 }
 
 .crop-quantity-row .crop-sub-desc {
