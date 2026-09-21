@@ -12,22 +12,21 @@ Welcome! We are thrilled that you are interested in contributing to GAMA (Global
 ### 2. Developing Code
 * **Fork** our repository and create a new branch from `main`.
 * **Web Development**:
-  * Located under `web/`.
+  * Application code is located under `src/`; configuration and tooling stay at the repository root.
   * Built with Next.js (App Router), TypeScript, and Drizzle ORM (SQLite).
-  * Reads live in `web/data/` (`get-*.ts`, one named export per file).
-  * Writes/computations live in `web/actions/` (`create-*/update-*/record-*.ts`, `'use server'`, one named export per file).
-  * Binary proxies (map tiles, static maps) and `/api/health` live in `web/app/api/`.
-  * DB schema lives in `web/lib/db/schema.ts`; never edit the DB without a `drizzle-kit generate` migration.
-* **Frontend Development**:
-  * The garden UI is being migrated from legacy vanilla HTML/JS (`frontend/`) into `web/`.
+  * Reads live in `src/data/` (`get-*.ts`, one named export per file).
+  * Writes/computations live in `src/actions/` (`create-*/update-*/record-*.ts`, `'use server'`, one named export per file).
+  * Binary proxies (map tiles, static maps) and `/api/health` live in `src/app/api/`.
+  * DB schema lives in `src/lib/db/schema.ts`; never edit the DB without a `drizzle-kit generate` migration.
+* **Legacy Frontend**:
+  * The pre-migration vanilla HTML/JS implementation is preserved in `legacy/frontend/` for reference.
   * Uses Three.js for 3D visualization.
 * Keep your code clean, concise, and well-documented.
 
 ### 3. Testing Your Changes
-* Run typecheck and lint inside `web/` — both must pass:
+* Run typecheck and lint from the repository root — both must pass:
   ```bash
-  cd web
-  npx tsc --noEmit
+  pnpm typecheck
   pnpm lint
   ```
 * After schema changes, verify the seed still produces parity:

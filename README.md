@@ -10,8 +10,9 @@ An ecosystem design engine and intelligent garden planner. This system is design
 
 ## Project Structure
 
-- `web/`: Next.js app — UI, server functions (`data/` reads, `actions/` writes), map/health route handlers, and the Drizzle SQLite layer (`lib/db/`).
-- `frontend/`: Legacy vanilla-JS interface (pending migration to `web/`).
+- `src/`: Next.js application code — routes, UI, server functions, data reads, and the Drizzle database layer.
+- Repository root: Tooling, migrations, tests, scripts, environment files, and static `public/` assets.
+- `legacy/frontend/`: Preserved vanilla-JS interface from before the Next.js migration.
 - `docs/`: Product designs, architectural blueprints, and setup documentation.
 
 ## Setup (Next.js + Drizzle)
@@ -22,30 +23,28 @@ An ecosystem design engine and intelligent garden planner. This system is design
 
 ### Running the App
 
-1. Navigate to the web directory:
-   ```bash
-   cd web
-   ```
-2. Install dependencies:
+1. Install dependencies from the repository root:
    ```bash
    pnpm install
    ```
-3. Create the database and seed the plant catalog:
+2. Create the database and seed the plant catalog:
    ```bash
    pnpm db:push
    pnpm db:seed
    ```
-4. Run the development server:
+3. Run the development server:
    ```bash
    pnpm dev
    ```
-5. Open [http://localhost:3000](http://localhost:3000). Health check lives at `/api/health`.
+4. Open [http://localhost:3000](http://localhost:3000). Health check lives at `/api/health`.
 
-### Useful commands (inside `web/`)
+### Useful commands
 
 - `pnpm db:generate` / `pnpm db:migrate` / `pnpm db:push` — Drizzle schema workflow
 - `pnpm db:seed` — rebuild the 227-plant + 844-relationship catalog
 - `pnpm lint` — Biome check (must pass clean)
+- `pnpm typecheck` — TypeScript validation
+- `pnpm test` / `pnpm test:e2e` — unit and browser tests
 
 ## 💖 Funding & Open Collective
 
