@@ -11,22 +11,30 @@ Welcome! We are thrilled that you are interested in contributing to GAMA (Global
 
 ### 2. Developing Code
 * **Fork** our repository and create a new branch from `main`.
-* **Backend Development**:
-  * Located under `backend/`.
-  * Written in Python using FastAPI.
-  * Follow pep8 coding standards.
+* **Web Development**:
+  * Located under `web/`.
+  * Built with Next.js (App Router), TypeScript, and Drizzle ORM (SQLite).
+  * Reads live in `web/data/` (`get-*.ts`, one named export per file).
+  * Writes/computations live in `web/actions/` (`create-*/update-*/record-*.ts`, `'use server'`, one named export per file).
+  * Binary proxies (map tiles, static maps) and `/api/health` live in `web/app/api/`.
+  * DB schema lives in `web/lib/db/schema.ts`; never edit the DB without a `drizzle-kit generate` migration.
 * **Frontend Development**:
-  * Located under `frontend/`.
-  * Written in HTML5, Vanilla JavaScript, and CSS.
+  * The garden UI is being migrated from legacy vanilla HTML/JS (`frontend/`) into `web/`.
   * Uses Three.js for 3D visualization.
 * Keep your code clean, concise, and well-documented.
 
 ### 3. Testing Your Changes
-* Run our automated verification tests prior to submitting a pull request:
+* Run typecheck and lint inside `web/` — both must pass:
   ```bash
-  python backend/tests/...
+  cd web
+  npx tsc --noEmit
+  pnpm lint
   ```
-* Verify that the frontend compiles and runs without console errors at `http://localhost:8000`.
+* After schema changes, verify the seed still produces parity:
+  ```bash
+  pnpm db:push && pnpm db:seed
+  ```
+  (expect 227 plants / 844 relationships).
 
 ### 4. Submitting a Pull Request (PR)
 * Push your branch to your forked repository and submit a PR to our `main` branch.

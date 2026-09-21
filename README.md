@@ -10,32 +10,44 @@ An ecosystem design engine and intelligent garden planner. This system is design
 
 ## Project Structure
 
-- `backend/`: FastAPI local server providing decision-making endpoints and database integrations.
-- `database/`: Database configuration and schema files (SQLite/PostgreSQL).
-- `frontend/`: Interactive graphical user interface (web/desktop).
+- `web/`: Next.js app — UI, server functions (`data/` reads, `actions/` writes), map/health route handlers, and the Drizzle SQLite layer (`lib/db/`).
+- `backend/`: Legacy FastAPI server (pending removal once the web UI lands).
+- `database/`: Legacy Python seed (pending removal; use `pnpm db:seed` in `web/` instead).
+- `frontend/`: Legacy vanilla-JS interface served by the old backend (pending migration to `web/`).
 - `docs/`: Product designs, architectural blueprints, and setup documentation.
 
-## Phase 1 Setup (Local API Server)
+## Setup (Next.js + Drizzle)
 
 ### Prerequisites
-- Python 3.8+
-- `pip`
+- Node 20+
+- `pnpm`
 
-### Running the Backend
+### Running the App
 
-1. Navigate to the backend directory:
+1. Navigate to the web directory:
    ```bash
-   cd backend
+   cd web
    ```
 2. Install dependencies:
    ```bash
-   pip install -r requirements.txt
+   pnpm install
    ```
-3. Run the development server:
+3. Create the database and seed the plant catalog:
    ```bash
-   python -m uvicorn app.main:app --reload
+   pnpm db:push
+   pnpm db:seed
    ```
-4. Access the API documentation at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
+4. Run the development server:
+   ```bash
+   pnpm dev
+   ```
+5. Open [http://localhost:3000](http://localhost:3000). Health check lives at `/api/health`.
+
+### Useful commands (inside `web/`)
+
+- `pnpm db:generate` / `pnpm db:migrate` / `pnpm db:push` — Drizzle schema workflow
+- `pnpm db:seed` — rebuild the 227-plant + 844-relationship catalog
+- `pnpm lint` — Biome check (must pass clean)
 
 ## 💖 Funding & Open Collective
 
