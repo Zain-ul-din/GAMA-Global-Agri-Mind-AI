@@ -7,8 +7,28 @@ test("designer shell exposes only working navigation", async ({
   await page.goto("/design");
   if (isMobile) {
     await expect(page.getByLabel("Open garden setup")).toBeVisible();
+    await page.getByLabel("Open navigation").click();
+    await expect(
+      page.getByRole("navigation", { name: "Designer navigation" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Garden setup" }),
+    ).toBeVisible();
+    await page.keyboard.press("Escape");
   } else {
     await expect(page.getByText("Garden designer")).toBeVisible();
+    const navigation = page.getByRole("navigation", {
+      name: "Designer navigation",
+    });
+    await expect(
+      navigation.getByRole("button", { name: "Garden setup" }),
+    ).toBeVisible();
+    await expect(
+      navigation.getByRole("button", { name: "Trace site" }),
+    ).toBeVisible();
+    await expect(
+      navigation.getByRole("button", { name: "Calendar" }),
+    ).toBeDisabled();
   }
   await expect(page.getByText("Plot workspace")).toBeVisible();
   await expect(page.getByText("Expert Hub")).toHaveCount(0);

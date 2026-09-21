@@ -1,13 +1,16 @@
 "use client";
 
 import {
+  Brain02Icon,
   Calendar03Icon,
+  ChartRelationshipIcon,
   CubeIcon,
   Delete02Icon,
   Globe02Icon,
   GridIcon,
   Leaf01Icon,
   Menu01Icon,
+  RulerIcon,
   SatelliteIcon,
   Sun03Icon,
 } from "@hugeicons/core-free-icons";
@@ -57,7 +60,12 @@ import {
   resolveCapacity,
   toFeet,
 } from "@/lib/design/engine";
-import type { MapSettings, Plant, VisitorCountry } from "@/lib/design/types";
+import type {
+  MapSettings,
+  Plant,
+  ViewMode,
+  VisitorCountry,
+} from "@/lib/design/types";
 
 const ThreeGarden = dynamic(() => import("@/components/design/three-garden"), {
   ssr: false,
@@ -77,6 +85,8 @@ interface DesignStudioProps {
   initialVisitors: VisitorCountry[];
 }
 
+type ResultTab = "recommendations" | "advice" | "calendar" | "network";
+
 export function DesignStudio(props: DesignStudioProps) {
   return (
     <DesignProvider>
@@ -95,6 +105,8 @@ function DesignerWorkspace({
   const [visitors, setVisitors] = useState(initialVisitors);
   const [progress, setProgress] = useState(0);
   const [sunPath, setSunPath] = useState(false);
+  const [resultTab, setResultTab] = useState<ResultTab>("recommendations");
+  const [mobileSetupOpen, setMobileSetupOpen] = useState(false);
   const [generating, startGenerating] = useTransition();
   const patch = (value: Partial<typeof draft>) =>
     dispatch({ type: "patch", value });
@@ -109,6 +121,25 @@ function DesignerWorkspace({
 
   const widthFeet = toFeet(draft.width, draft.dimensionUnit);
   const heightFeet = toFeet(draft.height, draft.dimensionUnit);
+
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth",
+      block: "start",
+    });
+  };
+
+  const openWorkspace = (viewMode: ViewMode) => {
+    patch({ viewMode });
+    window.requestAnimationFrame(() => scrollTo("plot-workspace"));
+  };
+
+  const openResults = (tab: ResultTab) => {
+    setResultTab(tab);
+    window.requestAnimationFrame(() => scrollTo("design-insights"));
+  };
 
   const applyPresets = () => {
     const selectedPlants = applyPresetAllocations(
@@ -252,24 +283,30 @@ function DesignerWorkspace({
 
   return (
     <div className="min-h-svh bg-muted/30">
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-16 flex-col items-center border-r bg-sidebar py-3 lg:flex">
-        <Image
-          src="/gama-transparent-logo.png"
-          alt="GAMA"
-          width={40}
-          height={40}
-          className="h-9 w-9 object-contain"
-          priority
-        />
-        <Separator className="my-3 w-8" />
-        <Button variant="secondary" size="icon-lg" aria-label="Garden design">
-          <HugeiconsIcon icon={Leaf01Icon} strokeWidth={2} />
-        </Button>
-      </aside>
+      <DesignerSidebar
+        activeView={draft.viewMode}
+        activeResultTab={resultTab}
+        hasLayout={Boolean(draft.layout)}
+        hasResults={Boolean(draft.result)}
+        onSetup={() => scrollTo("garden-setup")}
+        onView={openWorkspace}
+        onResults={openResults}
+      />
 
-      <div className="lg:pl-16">
+      <div className="lg:pl-18 xl:pl-56">
         <header className="sticky top-0 z-20 flex h-14 items-center gap-2 border-b bg-background/95 px-3 backdrop-blur-sm lg:px-5">
+          <MobileNavigation
+            activeView={draft.viewMode}
+            activeResultTab={resultTab}
+            hasLayout={Boolean(draft.layout)}
+            hasResults={Boolean(draft.result)}
+            onSetup={() => setMobileSetupOpen(true)}
+            onView={openWorkspace}
+            onResults={openResults}
+          />
           <MobileSetup
+            open={mobileSetupOpen}
+            onOpenChange={setMobileSetupOpen}
             plants={plants}
             onPlantsChange={setPlants}
             onApplyPresets={applyPresets}
@@ -310,7 +347,7 @@ function DesignerWorkspace({
         </header>
 
         <main className="grid gap-3 p-3 lg:grid-cols-[310px_minmax(0,1fr)] lg:p-4">
-          <aside className="hidden lg:block">
+          <aside id="garden-setup" className="hidden scroll-mt-20 lg:block">
             <SetupPanel
               plants={plants}
               onPlantsChange={setPlants}
@@ -320,7 +357,7 @@ function DesignerWorkspace({
             />
           </aside>
           <div className="min-w-0 space-y-3">
-            <Card className="overflow-hidden">
+            <Card id="plot-workspace" className="scroll-mt-20 overflow-hidden">
               <CardHeader className="flex-row items-center justify-between gap-3 border-b">
                 <div>
                   <CardTitle>Plot workspace</CardTitle>
@@ -443,7 +480,11 @@ function DesignerWorkspace({
               </Alert>
             )}
 
-            <ResultsPanel visitors={visitors} />
+            <ResultsPanel
+              visitors={visitors}
+              activeTab={resultTab}
+              onTabChange={setResultTab}
+            />
           </div>
         </main>
       </div>
@@ -451,9 +492,249 @@ function DesignerWorkspace({
   );
 }
 
-function MobileSetup(props: Parameters<typeof SetupPanel>[0]) {
+interface DesignerNavigationProps {
+  activeView: ViewMode;
+  activeResultTab: ResultTab;
+  hasLayout: boolean;
+  hasResults: boolean;
+  onSetup: () => void;
+  onView: (view: ViewMode) => void;
+  onResults: (tab: ResultTab) => void;
+}
+
+function BrandLockup({ compact = false }: { compact?: boolean }) {
   return (
-    <Sheet>
+    <a
+      href="/design"
+      className="flex min-w-0 items-center gap-3 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring"
+      aria-label="GAMA garden designer"
+    >
+      <span className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-sidebar-border bg-white p-1 shadow-sm dark:bg-white/95">
+        <Image
+          src="/gama-logo.png"
+          alt=""
+          width={44}
+          height={44}
+          className="size-10 object-contain"
+          priority
+        />
+      </span>
+      {!compact && (
+        <span className="min-w-0 leading-tight">
+          <span className="block text-base font-semibold tracking-tight text-sidebar-foreground">
+            GAMA
+          </span>
+          <span className="block truncate text-[11px] text-muted-foreground">
+            Global Agri-Mind AI
+          </span>
+        </span>
+      )}
+    </a>
+  );
+}
+
+function NavigationLinks({
+  activeView,
+  activeResultTab,
+  hasLayout,
+  hasResults,
+  onSetup,
+  onView,
+  onResults,
+  mobile = false,
+}: DesignerNavigationProps & { mobile?: boolean }) {
+  const itemClass = mobile
+    ? "w-full justify-start"
+    : "w-full justify-center xl:justify-start";
+  const labelClass = mobile ? "" : "lg:sr-only xl:not-sr-only";
+
+  return (
+    <nav aria-label="Designer navigation" className="space-y-5">
+      <div className="space-y-1">
+        <p className="px-2 pb-1 text-xs font-medium text-muted-foreground lg:sr-only xl:not-sr-only">
+          Plan
+        </p>
+        <Button
+          variant="ghost"
+          className={itemClass}
+          title="Garden setup"
+          onClick={onSetup}
+        >
+          <HugeiconsIcon icon={RulerIcon} strokeWidth={2} />
+          <span className={labelClass}>Garden setup</span>
+        </Button>
+        <Button
+          variant={activeView === "plan" ? "secondary" : "ghost"}
+          className={itemClass}
+          title="2D plan"
+          onClick={() => onView("plan")}
+        >
+          <HugeiconsIcon icon={GridIcon} strokeWidth={2} />
+          <span className={labelClass}>2D plan</span>
+        </Button>
+        <Button
+          variant={activeView === "three" ? "secondary" : "ghost"}
+          className={itemClass}
+          title="3D garden"
+          disabled={!hasLayout}
+          onClick={() => onView("three")}
+        >
+          <HugeiconsIcon icon={CubeIcon} strokeWidth={2} />
+          <span className={labelClass}>3D garden</span>
+        </Button>
+        <Button
+          variant={activeView === "satellite" ? "secondary" : "ghost"}
+          className={itemClass}
+          title="Trace site"
+          onClick={() => onView("satellite")}
+        >
+          <HugeiconsIcon icon={SatelliteIcon} strokeWidth={2} />
+          <span className={labelClass}>Trace site</span>
+        </Button>
+      </div>
+
+      <div className="space-y-1">
+        <p className="px-2 pb-1 text-xs font-medium text-muted-foreground lg:sr-only xl:not-sr-only">
+          Insights
+        </p>
+        <Button
+          variant={
+            hasResults && activeResultTab === "recommendations"
+              ? "secondary"
+              : "ghost"
+          }
+          className={itemClass}
+          title="Relationships"
+          disabled={!hasResults}
+          onClick={() => onResults("recommendations")}
+        >
+          <HugeiconsIcon icon={ChartRelationshipIcon} strokeWidth={2} />
+          <span className={labelClass}>Relationships</span>
+        </Button>
+        <Button
+          variant={
+            hasResults && activeResultTab === "advice" ? "secondary" : "ghost"
+          }
+          className={itemClass}
+          title="GardenAI advice"
+          disabled={!hasResults}
+          onClick={() => onResults("advice")}
+        >
+          <HugeiconsIcon icon={Brain02Icon} strokeWidth={2} />
+          <span className={labelClass}>GardenAI advice</span>
+        </Button>
+        <Button
+          variant={
+            hasResults && activeResultTab === "calendar" ? "secondary" : "ghost"
+          }
+          className={itemClass}
+          title="Calendar"
+          disabled={!hasResults}
+          onClick={() => onResults("calendar")}
+        >
+          <HugeiconsIcon icon={Calendar03Icon} strokeWidth={2} />
+          <span className={labelClass}>Calendar</span>
+        </Button>
+        <Button
+          variant={
+            hasResults && activeResultTab === "network" ? "secondary" : "ghost"
+          }
+          className={itemClass}
+          title="Visitor network"
+          disabled={!hasResults}
+          onClick={() => onResults("network")}
+        >
+          <HugeiconsIcon icon={Globe02Icon} strokeWidth={2} />
+          <span className={labelClass}>Visitor network</span>
+        </Button>
+      </div>
+    </nav>
+  );
+}
+
+function DesignerSidebar(props: DesignerNavigationProps) {
+  return (
+    <aside className="fixed inset-y-0 left-0 z-30 hidden w-18 flex-col border-r bg-sidebar px-3 py-4 lg:flex xl:w-56">
+      <div className="flex justify-center xl:justify-start">
+        <span className="xl:hidden">
+          <BrandLockup compact />
+        </span>
+        <span className="hidden xl:block">
+          <BrandLockup />
+        </span>
+      </div>
+      <Separator className="my-4" />
+      <div className="min-h-0 flex-1 overflow-y-auto">
+        <NavigationLinks {...props} />
+      </div>
+      <div className="mt-4 hidden rounded-xl border border-sidebar-border bg-sidebar-accent/50 p-3 xl:block">
+        <div className="flex items-center gap-2">
+          <span className="size-2 rounded-full bg-primary" />
+          <span className="text-xs font-medium text-sidebar-foreground">
+            Design workspace
+          </span>
+        </div>
+        <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
+          Drafts save automatically in this browser.
+        </p>
+      </div>
+    </aside>
+  );
+}
+
+function MobileNavigation(props: DesignerNavigationProps) {
+  const [open, setOpen] = useState(false);
+  const closeThen = (action: () => void) => () => {
+    setOpen(false);
+    window.setTimeout(action, 180);
+  };
+
+  return (
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger
+        render={
+          <Button
+            className="lg:hidden"
+            variant="outline"
+            size="icon"
+            aria-label="Open navigation"
+          />
+        }
+      >
+        <HugeiconsIcon icon={Menu01Icon} strokeWidth={2} />
+      </SheetTrigger>
+      <SheetContent side="left" className="w-[min(88vw,320px)]">
+        <SheetHeader className="border-b">
+          <BrandLockup />
+          <SheetTitle className="sr-only">Designer navigation</SheetTitle>
+          <SheetDescription className="sr-only">
+            Move between garden planning tools and results.
+          </SheetDescription>
+        </SheetHeader>
+        <div className="flex-1 overflow-y-auto p-3">
+          <NavigationLinks
+            {...props}
+            mobile
+            onSetup={closeThen(props.onSetup)}
+            onView={(view) => closeThen(() => props.onView(view))()}
+            onResults={(tab) => closeThen(() => props.onResults(tab))()}
+          />
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+}
+
+function MobileSetup({
+  open,
+  onOpenChange,
+  ...props
+}: Parameters<typeof SetupPanel>[0] & {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
+  return (
+    <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetTrigger
         render={
           <Button
@@ -464,7 +745,7 @@ function MobileSetup(props: Parameters<typeof SetupPanel>[0]) {
           />
         }
       >
-        <HugeiconsIcon icon={Menu01Icon} strokeWidth={2} />
+        <HugeiconsIcon icon={RulerIcon} strokeWidth={2} />
       </SheetTrigger>
       <SheetContent side="left" className="w-[min(92vw,360px)] overflow-y-auto">
         <SheetHeader>
@@ -499,7 +780,15 @@ function ViewButton({
   );
 }
 
-function ResultsPanel({ visitors }: { visitors: VisitorCountry[] }) {
+function ResultsPanel({
+  visitors,
+  activeTab,
+  onTabChange,
+}: {
+  visitors: VisitorCountry[];
+  activeTab: ResultTab;
+  onTabChange: (tab: ResultTab) => void;
+}) {
   const { draft, dispatch } = useDesign();
   if (!draft.result) return null;
   const totalVisits = visitors.reduce(
@@ -507,9 +796,12 @@ function ResultsPanel({ visitors }: { visitors: VisitorCountry[] }) {
     0,
   );
   return (
-    <Card>
+    <Card id="design-insights" className="scroll-mt-20">
       <CardContent className="p-3">
-        <Tabs defaultValue="recommendations">
+        <Tabs
+          value={activeTab}
+          onValueChange={(value) => onTabChange(value as ResultTab)}
+        >
           <TabsList className="max-w-full overflow-x-auto">
             <TabsTrigger value="recommendations">Relationships</TabsTrigger>
             <TabsTrigger value="advice">GardenAI advice</TabsTrigger>
