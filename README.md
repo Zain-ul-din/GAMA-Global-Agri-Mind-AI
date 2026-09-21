@@ -11,9 +11,7 @@ An ecosystem design engine and intelligent garden planner. This system is design
 ## Project Structure
 
 - `web/`: Next.js app — UI, server functions (`data/` reads, `actions/` writes), map/health route handlers, and the Drizzle SQLite layer (`lib/db/`).
-- `backend/`: Legacy FastAPI server (pending removal once the web UI lands).
-- `database/`: Legacy Python seed (pending removal; use `pnpm db:seed` in `web/` instead).
-- `frontend/`: Legacy vanilla-JS interface served by the old backend (pending migration to `web/`).
+- `frontend/`: Legacy vanilla-JS interface (pending migration to `web/`).
 - `docs/`: Product designs, architectural blueprints, and setup documentation.
 
 ## Setup (Next.js + Drizzle)

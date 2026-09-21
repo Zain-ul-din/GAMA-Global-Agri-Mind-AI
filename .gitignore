@@ -8,10 +8,6 @@ ENV/
 env/
 .env
 
-# Database
-database/*.db
-database/garden.db
-
 # IDEs and Editors
 .vscode/
 .idea/
