@@ -1,0 +1,393 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "id": "a74654ff-0786-4da9-a75e-3733e4ab33f6",
+  "prevIds": [
+    "00000000-0000-0000-0000-000000000000"
+  ],
+  "ddl": [
+    {
+      "name": "plants",
+      "entityType": "tables"
+    },
+    {
+      "name": "relationships",
+      "entityType": "tables"
+    },
+    {
+      "name": "system_settings",
+      "entityType": "tables"
+    },
+    {
+      "name": "visitor_countries",
+      "entityType": "tables"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": true,
+      "default": null,
+      "generated": null,
+      "name": "id",
+      "entityType": "columns",
+      "table": "plants"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "name",
+      "entityType": "columns",
+      "table": "plants"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "scientific_name",
+      "entityType": "columns",
+      "table": "plants"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "type",
+      "entityType": "columns",
+      "table": "plants"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "sun_requirements",
+      "entityType": "columns",
+      "table": "plants"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "water_requirements",
+      "entityType": "columns",
+      "table": "plants"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "soil_preference",
+      "entityType": "columns",
+      "table": "plants"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "usda_zones",
+      "entityType": "columns",
+      "table": "plants"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "0",
+      "generated": null,
+      "name": "is_native",
+      "entityType": "columns",
+      "table": "plants"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "description",
+      "entityType": "columns",
+      "table": "plants"
+    },
+    {
+      "type": "real",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "mature_height",
+      "entityType": "columns",
+      "table": "plants"
+    },
+    {
+      "type": "real",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "mature_width",
+      "entityType": "columns",
+      "table": "plants"
+    },
+    {
+      "type": "real",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "min_radius",
+      "entityType": "columns",
+      "table": "plants"
+    },
+    {
+      "type": "real",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "max_radius",
+      "entityType": "columns",
+      "table": "plants"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "foliage_color",
+      "entityType": "columns",
+      "table": "plants"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "canopy_shape",
+      "entityType": "columns",
+      "table": "plants"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "fruit_color",
+      "entityType": "columns",
+      "table": "plants"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": true,
+      "default": null,
+      "generated": null,
+      "name": "id",
+      "entityType": "columns",
+      "table": "relationships"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "plant_id",
+      "entityType": "columns",
+      "table": "relationships"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "target_id",
+      "entityType": "columns",
+      "table": "relationships"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "type",
+      "entityType": "columns",
+      "table": "relationships"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "description",
+      "entityType": "columns",
+      "table": "relationships"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "key",
+      "entityType": "columns",
+      "table": "system_settings"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "value",
+      "entityType": "columns",
+      "table": "system_settings"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": "(CURRENT_TIMESTAMP)",
+      "generated": null,
+      "name": "updated_at",
+      "entityType": "columns",
+      "table": "system_settings"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "country_code",
+      "entityType": "columns",
+      "table": "visitor_countries"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "country_name",
+      "entityType": "columns",
+      "table": "visitor_countries"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": false,
+      "default": "1",
+      "generated": null,
+      "name": "visit_count",
+      "entityType": "columns",
+      "table": "visitor_countries"
+    },
+    {
+      "columns": [
+        "plant_id"
+      ],
+      "tableTo": "plants",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "nameExplicit": false,
+      "name": "fk_relationships_plant_id_plants_id_fk",
+      "entityType": "fks",
+      "table": "relationships"
+    },
+    {
+      "columns": [
+        "target_id"
+      ],
+      "tableTo": "plants",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "nameExplicit": false,
+      "name": "fk_relationships_target_id_plants_id_fk",
+      "entityType": "fks",
+      "table": "relationships"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "plants_pk",
+      "table": "plants",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "relationships_pk",
+      "table": "relationships",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "key"
+      ],
+      "nameExplicit": false,
+      "name": "system_settings_pk",
+      "table": "system_settings",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "country_code"
+      ],
+      "nameExplicit": false,
+      "name": "visitor_countries_pk",
+      "table": "visitor_countries",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "plant_id",
+        "target_id",
+        "type"
+      ],
+      "nameExplicit": false,
+      "name": "relationships_plant_id_target_id_type_unique",
+      "entityType": "uniques",
+      "table": "relationships"
+    },
+    {
+      "columns": [
+        "name"
+      ],
+      "nameExplicit": false,
+      "name": "plants_name_unique",
+      "entityType": "uniques",
+      "table": "plants"
+    }
+  ],
+  "renames": []
+}
