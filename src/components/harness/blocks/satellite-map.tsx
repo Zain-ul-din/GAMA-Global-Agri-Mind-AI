@@ -49,7 +49,7 @@ function boundsInFeet(polygons: GardenPolygon[]) {
   };
 }
 
-export default function SatelliteMap({
+export function SatelliteMap({
   location,
   polygons,
   onPolygonsChange,
@@ -138,7 +138,7 @@ export default function SatelliteMap({
   return (
     <div
       className={cn(
-        "relative h-[min(62vh,640px)] min-h-80 overflow-hidden rounded-md border",
+        "relative h-[min(62vh,640px)] min-h-80 overflow-hidden",
         className,
       )}
     >

@@ -67,3 +67,6 @@ next-env.d.ts
 
 # Local certificates
 *.pem
+
+# Eve Agent
+.eve
