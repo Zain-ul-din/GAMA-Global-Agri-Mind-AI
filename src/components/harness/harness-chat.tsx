@@ -84,7 +84,7 @@ export function HarnessChat() {
                 className={cn(
                   "flex w-full flex-col gap-1.5 transition-[opacity,filter,transform] duration-400 text-sm",
                   message.role === "user"
-                    ? "text-left text-foreground/70 bg-muted p-1 w-fit min-w-8  ml-auto px-2 max-w-[80%]"
+                    ? "text-left border rounded-sm text-foreground/70 bg-muted p-1 w-fit min-w-8  ml-auto px-2 max-w-[80%]"
                     : "text-left text-foreground/80",
                 )}
                 style={{
