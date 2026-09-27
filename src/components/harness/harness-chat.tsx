@@ -69,11 +69,12 @@ export function HarnessChat() {
   const send = () => {
     setMessage("");
     startTransition(async () => {
-      await agent.send(message);
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      await agent.send(message, {
+        clientContext: `time zone: ${timezone}\nlocalTime: ${new Date().toISOString()}`,
+      });
     });
   };
-
-  // console.log(agent.data.messages);
 
   return (
     <div className="flex flex-col h-full">
