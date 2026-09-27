@@ -146,8 +146,10 @@ export function HarnessChat() {
               className="flex size-7 items-center justify-center rounded-[8px]
                 transition-[background-color,color,transform] duration-200 enabled:active:scale-[0.96]"
               style={{
-                background: canSend ? "var(--ink)" : "var(--line-strong)",
-                color: canSend ? "var(--surface)" : "var(--ink-2)",
+                background: canSend ? "var(--primary)" : "var(--muted)",
+                color: canSend
+                  ? "var(--primary-foreground)"
+                  : "var(--muted-foreground)",
               }}
             >
               {isLoading ? (
