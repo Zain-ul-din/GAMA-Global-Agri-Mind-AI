@@ -1,0 +1,31 @@
+# NOTE: the Vercel CLI does NOT read .gitignore — only this file.
+# Without it the CLI used its 26-entry default list and tried to upload
+# .eve/ (10,060 files), which blew the free-plan limit of 5,000 file
+# uploads per 24h ("api-upload-free").
+
+# Local Eve agent build cache / traces / dev runtime (regenerated on Vercel)
+.eve
+.output
+
+# Secrets — set these in Vercel Project Settings → Environment Variables
+.env
+.env.*
+!.env.example
+
+# Local SQLite database
+*.db
+
+# Agent tooling (contains symlinks that resolve outside the project)
+.agents
+.claude
+.codex
+
+# Not needed to build the Next.js app
+legacy
+tests
+test-results
+playwright-report
+coverage
+playwright.config.ts
+vitest.config.ts
+*.tsbuildinfo

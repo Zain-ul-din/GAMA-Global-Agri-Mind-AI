@@ -35,5 +35,5 @@ const nextConfig: NextConfig = {
 };
 
 export default withEve(nextConfig, {
-  eveRoot: "./agent",
+  eveRoot: "./",
 });
