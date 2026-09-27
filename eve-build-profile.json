@@ -1,0 +1,78 @@
+{
+  "durationMs": 4706.7,
+  "kind": "eve-build-profile",
+  "output": {
+    "files": 68,
+    "gzipBytes": 10549020,
+    "rawBytes": 17964558,
+    "functionBundles": []
+  },
+  "phases": [
+    {
+      "durationMs": 0.3,
+      "name": "extension.check"
+    },
+    {
+      "durationMs": 0.5,
+      "name": "project.resolve"
+    },
+    {
+      "durationMs": 0.4,
+      "name": "workspace.create"
+    },
+    {
+      "durationMs": 674.5,
+      "name": "host.prepare"
+    },
+    {
+      "durationMs": 298,
+      "name": "nitro.create"
+    },
+    {
+      "durationMs": 0.4,
+      "name": "nitro.cache.prepare"
+    },
+    {
+      "durationMs": 1.2,
+      "name": "nitro.prepare"
+    },
+    {
+      "durationMs": 48.3,
+      "name": "nitro.public-assets"
+    },
+    {
+      "durationMs": 0.5,
+      "name": "nitro.prerender"
+    },
+    {
+      "durationMs": 3661.6,
+      "name": "nitro.bundle"
+    },
+    {
+      "durationMs": 0.8,
+      "name": "nitro.cache.write"
+    },
+    {
+      "durationMs": 1.6,
+      "name": "agent-summary.emit"
+    },
+    {
+      "durationMs": 5,
+      "name": "compiler-artifacts.stage"
+    },
+    {
+      "durationMs": 0.2,
+      "name": "nitro.close"
+    },
+    {
+      "durationMs": 8.5,
+      "name": "output.publish"
+    },
+    {
+      "durationMs": 3.7,
+      "name": "workspace.remove"
+    }
+  ],
+  "schemaVersion": 1,
+  "target": "local"
+}

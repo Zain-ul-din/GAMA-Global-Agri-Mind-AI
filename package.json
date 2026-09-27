@@ -18,7 +18,8 @@
     "db:studio": "drizzle-kit studio",
     "db:seed": "tsx ./scripts/seed.ts",
     "dev:web": "next dev apps/web",
-    "build:web": "next build apps/web"
+    "build:web": "next build apps/web",
+    "build:eve": "npx eve build --profile eve-build-profile.json --skip-sandbox-prewarm"
   },
   "dependencies": {
     "@ai-sdk/openai": "^4.0.78",
