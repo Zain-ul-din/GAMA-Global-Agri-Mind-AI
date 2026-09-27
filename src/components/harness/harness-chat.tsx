@@ -1,12 +1,5 @@
 "use client";
-import {
-  Fragment,
-  use,
-  useEffect,
-  useRef,
-  useState,
-  useTransition,
-} from "react";
+import { Fragment, use, useRef, useState, useTransition } from "react";
 import { useEveAgent } from "eve/react";
 import { cn } from "cn";
 import { HarnessContext } from "./harness-provider";
@@ -18,7 +11,7 @@ import { boundsInFeet } from "@/lib/utils";
 import Markdown from "react-markdown";
 
 export function HarnessChat() {
-  const { polygons } = use(HarnessContext);
+  const { polygons, selectedLocation } = use(HarnessContext);
 
   const agent = useEveAgent({
     onFinish: (snapShot) => {
@@ -70,8 +63,13 @@ export function HarnessChat() {
     setMessage("");
     startTransition(async () => {
       const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      let context = `time zone: ${timezone}\nlocalTime: ${new Date().toISOString()}\n`;
+
+      if (selectedLocation)
+        context += `Selected location: ${JSON.stringify(selectedLocation, null, 1)}`;
+
       await agent.send(message, {
-        clientContext: `time zone: ${timezone}\nlocalTime: ${new Date().toISOString()}`,
+        clientContext: context,
       });
     });
   };

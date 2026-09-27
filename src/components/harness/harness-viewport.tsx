@@ -4,7 +4,7 @@ import { SatelliteMap } from "./blocks/satellite-map";
 import { HarnessContext } from "./harness-provider";
 
 export function HarnessViewport() {
-  const { polygons, setPolygons } = use(HarnessContext);
+  const { polygons, setPolygons, setSelectedLocation } = use(HarnessContext);
 
   return (
     <div className="w-full h-full">
@@ -13,6 +13,9 @@ export function HarnessViewport() {
         onPolygonsChange={setPolygons}
         polygons={polygons}
         onBoundsChange={() => {}}
+        onLocationChange={(lat, lng) => {
+          setSelectedLocation({ lat, lng });
+        }}
         className="h-full w-full min-h-full"
       />
     </div>
