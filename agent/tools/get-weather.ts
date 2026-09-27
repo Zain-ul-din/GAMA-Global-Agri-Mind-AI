@@ -6,17 +6,17 @@ export default defineTool({
   description:
     "Get weather data for a specific location. Use the optional boolean parameters to fetch only the level of detail requested by the user.",
   inputSchema: z.object({
-    latitude: z
+    lat: z
       .number()
       .min(-90)
       .max(90)
       .describe("The latitude coordinate of the location."),
-    longitude: z
+    lng: z
       .number()
       .min(-180)
       .max(180)
       .describe("The longitude coordinate of the location."),
-    includeCurrent: z
+    includeCurr: z
       .boolean()
       .default(true)
       .describe(
@@ -35,20 +35,14 @@ export default defineTool({
         "Set to true if the user asks for a multi-day forecast, highs and lows, or upcoming week predictions.",
       ),
   }),
-  execute: async ({
-    latitude,
-    longitude,
-    includeCurrent,
-    includeHourly,
-    includeDaily,
-  }) => {
+  execute: async ({ lat, lng, includeCurr, includeHourly, includeDaily }) => {
     const url = new URL("https://api.open-meteo.com/v1/forecast");
-    url.searchParams.set("latitude", latitude.toString());
-    url.searchParams.set("longitude", longitude.toString());
+    url.searchParams.set("latitude", lat.toString());
+    url.searchParams.set("longitude", lng.toString());
     url.searchParams.set("timezone", "auto");
 
     // Let the AI context determine what parameters get appended to the request
-    if (includeCurrent) {
+    if (includeCurr) {
       url.searchParams.set(
         "current",
         "temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m",
