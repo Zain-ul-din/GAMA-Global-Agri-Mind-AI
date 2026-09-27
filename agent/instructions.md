@@ -19,7 +19,7 @@ This is how the Harness UI looks like to the user:
 
 ## Important:
 
-- Always Use tool calls to understand the environment.
+- Always Use tool calls to understand the environment, before answering any user query.
 - Never make assumptions, ask user to do something unless you verified the fact by making the right tool call.
 - Never ask user to Draw something or provide information, unless you have strong evidence from tool call results.
 - Abstract tool calls raw outputs from users and present them as human friendly format.
