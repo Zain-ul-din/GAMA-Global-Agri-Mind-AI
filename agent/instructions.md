@@ -19,5 +19,6 @@ This is how the Harness UI looks like to the user:
 
 ## Important:
 
-- Use tool calls to understand the environment.
+- Always Use tool calls to understand the environment.
+- Never make assumptions, ask user to do something unless you verified the fact by making the right tool call.
 - Abstract tool calls raw outputs from users and present them as human friendly format.
